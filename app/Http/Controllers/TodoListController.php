@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TodoList;
+use Illuminate\Support\Facades\Auth;
 
 class TodoListController extends Controller
 {
@@ -14,8 +15,10 @@ class TodoListController extends Controller
         //  $todos = Todo::all();
         return view('todos.todo', compact('todos'));
     }
+
     public function index()
     {
+        // $lists = Auth::user()->todolist()->orderBy('completed_at', 'asc');
         $lists = TodoList::all();
         return view('lists.index', compact('lists'));
 
@@ -65,3 +68,23 @@ class TodoListController extends Controller
                        ->with('success','lists deleted successfully');
     }
 }
+// https://www.youtube.com/watch?v=gyWLxpYWxFQ
+// https://www.youtube.com/watch?v=2bslfjKEAik
+// https://laravel.com/docs/8.x/authentication
+
+
+// <form action={{ route('tasks.update', $task->id) }} method="POST">
+//     @method('PATCH')
+//     @csrf
+//     <input type="hidden" name="completed" value="1" />
+//     <button     type="submit">Complete</button>
+// </form>
+
+// <li class = "list-group-item {{ $task->completed ? 'strike' : '' }}">
+//     {{ $tasks->task }}
+//     <span>
+//         <button>
+//             <i class="fa fa-close" style="font-size:12px;color:red"></i>
+//         </button>
+// </span>
+// </li>

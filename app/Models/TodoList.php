@@ -16,4 +16,8 @@ class TodoList extends Model
         return $this->hasMany('App\Models\Todo');
         // return $this->hasMany('App\Models\Todo', 'foreign_key');
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
