@@ -27,10 +27,10 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('lists', [TodoListController::class, 'index']);
 Route::get('/lists/create', [TodoListController::class, 'create'])->name('lists.create');
 Route::post('lists', [TodoListController::class, 'store'])->name('lists.store');
-Route::get('lists/show/{id}', [TodoListController::class, 'show'])->name('lists.show');
-Route::get('lists/edit/{id}', [TodoListController::class, 'edit'])->name('lists.edit');
-Route::put('lists/edit/{id}', [TodoListController::class, 'update'])->name('lists.update');
-Route::delete('lists/destroy/{id}', [TodoListController::class, 'destroy'])->name('lists.destroy');
+Route::get('lists/show/{todolist}', [TodoListController::class, 'show'])->name('lists.show');
+Route::get('lists/edit/{todolist}', [TodoListController::class, 'edit'])->name('lists.edit');
+Route::put('lists/edit/{todolist}', [TodoListController::class, 'update'])->name('lists.update');
+Route::delete('lists/destroy/{todolist}', [TodoListController::class, 'destroy'])->name('lists.destroy');
 // Route::get('/lists/{id}/todo', [TodoListController::class, 'getlisttodos'])->name('lists.todo');
 Route::get('/lists/{id}/todos/todo', [TodoListController::class, 'getlisttodos'])->name('todos.todo');
 

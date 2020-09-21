@@ -17,3 +17,16 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
+
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/user/me', 'Auth\UserController@index');
+        Route::get('list', 'TodoListController@index');
+        Route::post('list', 'TodoListController@store');
+        Route::get('list/{todolist}', 'TodoListController@show');
+        Route::put('list/{todolist}', 'TodoListController@update');
+        Route::delete('list/{todolist}', 'TodoListController@destroy');
+      });
+
+});

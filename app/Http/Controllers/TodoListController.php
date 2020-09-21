@@ -5,22 +5,30 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\TodoList;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\TodoListRequest;
+use App\Http\Resources\TodoListResource;
 
 class TodoListController extends Controller
 {
-    public function getlisttodos($id)
+    public function getlisttodos($todolist)
     {
 
-        $todos = TodoList::findorFail($id)->todos;
+        $todos = TodoList::findorFail($todolist)->todos;
         //  $todos = Todo::all();
         return view('todos.todo', compact('todos'));
     }
 
     public function index()
     {
-        // $lists = Auth::user()->todolist()->orderBy('completed_at', 'asc');
+        $lists = Auth::user()->todolist()->orderBy('completed_at', 'asc');
         $lists = TodoList::all();
         return view('lists.index', compact('lists'));
+
+        // $user = Auth::user();
+        // $todolist = $user->todolist->all();
+        // return TodoListResource::collection($todolist);
+
+
 
     }
     public function create()
@@ -28,44 +36,50 @@ class TodoListController extends Controller
         return view('lists.create');
 
     }
-    public function store(Request $request)
+    public function store(TodoListRequest $request)
     {
-        $list = TodoList::create($request->all());
-        return redirect('/lists')->with('success', 'List created');
+        // $list = TodoList::create($request->all());
+        // return redirect('/lists')->with('success', 'List created');
+         $todolist = new TodoList();
+            $todolist->name = $request->input('name');
+            $todolist->user_id = Auth::user()->id;
+            $todolist->save();
+            return new TodoListResource($todolist);
 
     }
 
-    public function show($id)
+    public function show(TodoList $todolist)
     {
-       $list = TodoList::findorFail($id);
+       $list = TodoList::findorFail($todolist);
       return view('lists.show',compact('list'));
     }
 
     public function edit($id)
     {
-      $list = TodoList::findorFail($id);
+      $list = TodoList::find($id);
     //   return $list;
     return view('lists.edit', compact('list'));
     }
 
-    public function update(Request $request, $id)
+    public function update(TodoListRequest $request, TodoList $todolist)
     {
-        $request->validate([
-            'name' => 'required'
-        ]);
 
-        $list= TodoList::findorFail($id);
-        $list->update($request->all());
+        // $todolist= TodoList::find($todolist);
+        $todolist->update($request->all());
+        return new TodoListResource($todolist);
 
-        return redirect('lists')->with('success','List updated successfully');
+        //return redirect('lists')->with('success','List updated successfully');
     }
-    public function destroy($id)
+    public function destroy(TodoList $todolist)
     {
-        $list= TodoList::findorFail($id);
-        $list->delete();
+    //     $list= TodoList::findorFail($todolist);
+    //     $list->delete();
 
-       return redirect('lists')
-                       ->with('success','lists deleted successfully');
+    //    return redirect('lists')
+    //                    ->with('success','lists deleted successfully');
+
+    $todolist->delete();
+        return response()->json(['status', 'todo list deleted']);
     }
 }
 
