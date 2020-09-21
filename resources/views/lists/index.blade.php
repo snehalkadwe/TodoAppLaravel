@@ -19,8 +19,9 @@
             </tr>
         </thead>
         <tbody>
-           @foreach ($lists as $list)
-                <tr>
+
+           @foreach ($todolist as $list)
+                <tr><p>{{ $list->user_id }}</p>
                     <td>{{ $list->id }}</td>
                     <td><a href="/lists/{{ $list->id }}/todos/todo">{{ $list->name}}</a></td>
                     {{-- <td><a href="/lists/{{ $list->id }}/todo">{{ $list->name}}</a></td> --}}

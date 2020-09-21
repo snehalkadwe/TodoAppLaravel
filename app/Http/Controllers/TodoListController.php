@@ -20,17 +20,16 @@ class TodoListController extends Controller
 
     public function index()
     {
-        $lists = Auth::user()->todolist()->orderBy('completed_at', 'asc');
-        $lists = TodoList::all();
-        return view('lists.index', compact('lists'));
+        // $lists = Auth::user()->todolist()->orderBy('completed_at', 'asc');
+        // $lists = TodoList::all();
+        // return view('lists.index', compact('lists'));
 
-        // $user = Auth::user();
-        // $todolist = $user->todolist->all();
-        // return TodoListResource::collection($todolist);
-
-
-
+        $user = Auth::user();
+        $todolist = $user->todolist->all();
+        //return TodoListResource::collection($todolist);
+        return view('lists.index', compact('todolist'));
     }
+
     public function create()
     {
         return view('lists.create');
@@ -78,9 +77,17 @@ class TodoListController extends Controller
     //    return redirect('lists')
     //                    ->with('success','lists deleted successfully');
 
-    $todolist->delete();
+         $todolist->delete();
         return response()->json(['status', 'todo list deleted']);
     }
+
+    public function getdropdownlist()
+    {
+        $todolist = Auth::user()->todolist()->get();
+        return view('lists.snehal', compact('todolist'));
+        // return new TodoListResource($todolist);
+    }
+
 }
 
 

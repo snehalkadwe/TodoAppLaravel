@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Todo;
+use App\Models\TodoList;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TodoController extends Controller
 {
@@ -14,7 +16,7 @@ class TodoController extends Controller
      */
     public function index()
     {
-        $todos = Todo::all();
+        $todos = todolist()->todos->get();
         return view('todos.index', compact('todos'));
 
     }
@@ -26,7 +28,8 @@ class TodoController extends Controller
      */
     public function create()
     {
-        return view('todos.create');
+        $todolist = Auth::user()->todolist()->get();
+        return view('todos.create', compact('todolist'));
 
     }
 
@@ -38,8 +41,11 @@ class TodoController extends Controller
      */
     public function store(Request $request)
     {
-        $todos = Todo::all();
-        return view('todos.index', compact('todosx'));
+        $todos = new Todo();
+        $todos->name = $request->input('name');
+        $todos->todo_list_id  = $request->input('todolist_id');
+        $todos->save();
+        return view('todos.index')->with('todos', $todos);
     }
 
     /**
@@ -51,10 +57,7 @@ class TodoController extends Controller
     public function show(Todo $todo)
     {
         // return view('todos.show',['todo' => Todo::findorFail($is)]);
-
         return view('todos.show',compact('todo'));
-
-
     }
 
     /**

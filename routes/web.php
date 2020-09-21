@@ -33,6 +33,7 @@ Route::put('lists/edit/{todolist}', [TodoListController::class, 'update'])->name
 Route::delete('lists/destroy/{todolist}', [TodoListController::class, 'destroy'])->name('lists.destroy');
 // Route::get('/lists/{id}/todo', [TodoListController::class, 'getlisttodos'])->name('lists.todo');
 Route::get('/lists/{id}/todos/todo', [TodoListController::class, 'getlisttodos'])->name('todos.todo');
+Route::get('/lists/selectd', [TodoListController::class, 'getdropdownlist'])->name('lists.selectd');
 
 
 Route::resource('/todos', TodoController::class);
