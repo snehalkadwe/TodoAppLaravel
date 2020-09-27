@@ -20,10 +20,18 @@
     <td>{{ $todo->id }}</td>
     <td>{{ $todo->name }}</td>
     <td>{{ $todo->due_at }}</td>
-    <td>{{ $todo->completed_at }}</td>
-    <td><a href="{{ route('todos.show', $todo->id) }}">Show</a></td>
+    <td>@include('todos.todo-complete')</td>
+    <td><a href="{{ route('todos.show', $todo->id) }}">Show
+                {{-- @if($todo->completed_at)
+                <p style="color:red">{{$todo->name}}</p>
+                @endif --}}
+    </td>
     <td><a href="{{ route('todos.edit', $todo->id) }}">Edit</a></td>
-    <td>{{ $todo->id }} <a href="">Delete</a> </td>
+    <td><form action="{{ route('todos.destroy', $todo->id)}}" method="post">
+                  @csrf
+                  @method('DELETE')
+                  <button class="btn btn-danger" type="submit">Delete</button>
+                </form>
 </tr>
 
 @endforeach

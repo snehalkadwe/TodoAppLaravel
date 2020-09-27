@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\TodoController;
 use App\Http\Controllers\TodoListController;
-
+use App\Http\Controllers\TaskController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,3 +37,14 @@ Route::get('/lists/selectd', [TodoListController::class, 'getdropdownlist'])->na
 
 
 Route::resource('/todos', TodoController::class);
+Route::put('todos/{todo}/complete', [TodoController::class, 'complete'])->name('todos.complete');
+ Route::delete('todos/{todo}/incomplete', [TodoController::class, 'incomplete'])->name('todos.incomplete');
+
+Route::get('tasks', [TaskController::class, 'index'])->name('tasks');
+Route::post('tasks', [TaskController::class, 'store'])->name('tasks');
+// Route::post('tasks', [TaskController::class, 'complete'])->name('tasks.complete');
+ Route::put('tasks/{id}/complete', [TaskController::class, 'complete'])->name('tasks.complete');
+ Route::delete('tasks/{id}/incomplete', [TaskController::class, 'incomplete'])->name('tasks.incomplete');
+
+
+// Route::get('tasks/{id}/complete' , [TaskController::class, 'complete'])->name('tasks');
